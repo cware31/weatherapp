@@ -7,8 +7,15 @@
 //
 
 #import "DetailViewController.h"
+#import "WeatherData.h"
+#import "WeatherDataApi.h"
 
 @interface DetailViewController ()
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSString *location;
+@property (nonatomic, weak) NSObject *weatherData;
+- (void)displayWeatherData;
 
 @end
 
@@ -19,28 +26,45 @@
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
-            
-        // Update the view.
+        
         [self configureView];
     }
 }
 
 - (void)configureView {
-    // Update the user interface for the detail item.
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
+        self.location = [self.detailItem description];
     }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    [self configureView];
+    
+    weatherDataApi = [[WeatherDataApi alloc] init];
+    [weatherDataApi setDelegate:self];
+    [weatherDataApi fetchWeatherData:self.location];
+    [self configureUI];
+    [self displayWeatherData];
 }
+
+- (void) configureUI {
+
+}
+
+- (void)displayWeatherData {
+    
+}
+
+
+
+-(void)setCityWeatherInfo:weatherData {
+    self.weatherData = weatherData;
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end
