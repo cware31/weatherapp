@@ -9,17 +9,24 @@
 #import "DetailViewController.h"
 #import "WeatherDataApi.h"
 #import "WeatherDetails.h"
-#import "WeatherView.h"
+#import <UIKit/UIKit.h>
 
 @interface DetailViewController ()
 
-// YES if the view has appeared
-@property (nonatomic) BOOL hasAppeared;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSString *location;
+@property (strong, nonatomic) IBOutlet UIView *weatherView;
 @property (nonatomic, weak) WeatherDetails *weatherData;
 @property (weak, nonatomic) IBOutlet UILabel *cityLabel;
-@property (nonatomic) WeatherView *weatherView;
+@property (weak, nonatomic) IBOutlet UILabel *currentTemperatureLabel;
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *conditionsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *feelsLikeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *windLabel;
+@property (weak, nonatomic) IBOutlet UILabel *lastUpdatedLabel;
+@property (weak, nonatomic) IBOutlet UILabel *windDirectionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *precipLabel;
+@property (weak, nonatomic) IBOutlet UILabel *humidityLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 
 @end
 
@@ -49,9 +56,9 @@
     [weatherDataApi setDelegate:self];
     [weatherDataApi fetchWeatherData:self.location];
     
-    self.view.backgroundColor = [UIColor colorWithRed:0.439 green:0.868 blue:0.999 alpha:1.000];
-    self.weatherView = [[WeatherView alloc]initWithFrame:self.view.bounds];
-    [self.view addSubview:self.weatherView];
+//    self.view.backgroundColor = [UIColor colorWithRed:0.439 green:0.868 blue:0.999 alpha:1.000];
+//    self = [[WeatherView alloc]initWithFrame:self.view.bounds];
+//    [self.view addSubview:self];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -68,41 +75,49 @@
 
 - (void)loadWeatherDataIntoUI
 {
-    [self.weatherView.activityIndicator startAnimating];
     NSDictionary *currentObservation = self.weatherData[@"current_observation"];
     NSDictionary *displayLocation = currentObservation[@"display_location"];
     // City,State
-    self.weatherView.locationLabel.text = displayLocation[@"full"];
+    self.locationLabel.text = displayLocation[@"full"];
     
     // Temperature
-    self.weatherView.currentTemperatureLabel.text = [NSString stringWithFormat:@"%.0f°",
+    self.currentTemperatureLabel.text = [NSString stringWithFormat:@"%@%.0f°", @"Temp: ",
                                                      [currentObservation[@"temp_f"] doubleValue]];
     // Conditions
-    self.weatherView.conditionDescriptionLabel.text = [currentObservation[@"weather"] capitalizedString];
+    self.conditionsLabel.text = [currentObservation[@"weather"] capitalizedString];
     NSString *feelsLike = [NSString stringWithFormat:@"%@%.0f°",@"Feels like ",
                            [currentObservation[@"feelslike_f"] doubleValue]];
-    self.weatherView.feelsLikeLabel.text = feelsLike;
-    // TODO: fix icon
-    NSURL *imageURL = [NSURL URLWithString:currentObservation[@"icon_url"]];
-    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-    UIImage *image = [UIImage imageWithData:imageData];
-    
-    //precipitation
-    self.weatherView.precipTodayLabel.text = [NSString stringWithFormat:@"%@ in.°",
-                                              currentObservation[@"precip_today_in"]];
+    self.feelsLikeLabel.text = feelsLike;
     
     //wind
-    self.weatherView.windLabel.text = [NSString stringWithFormat:@"%.0f° %@",
-                                        [currentObservation[@"wind_mph"] doubleValue], @"mph"];
+    self.windLabel.text = [NSString stringWithFormat:@"%@%.0f %@", @"Wind: ",
+                           [currentObservation[@"wind_mph"] doubleValue], @"mph"];
     
-    self.weatherView.conditionIcon = image;
-    self.weatherView.conditionImageView = [[UIImageView alloc] initWithImage:image];    
+    //precipitation
+    self.precipLabel.text = [NSString stringWithFormat:@"%@%@ in.", @"Precip: ",
+                                              currentObservation[@"precip_today_in"]];
+    
+    //wind direction
+    self.windDirectionLabel.text = [NSString stringWithFormat:@"%@%@", @"Wind From ",
+                                        currentObservation[@"wind_dir"]];
+    
+    //humidity
+    self.humidityLabel.text = [NSString stringWithFormat:@"%@%@", @"Humidity: ",
+                           currentObservation[@"relative_humidity"]];
+    
+    
+    //set image
+    NSString *imageUrlString = [NSString stringWithFormat:@"http://icons.wxug.com/i/c/a/%@.gif", currentObservation[@"icon"]];
+    NSURL *imageURL = [NSURL URLWithString:imageUrlString];
+    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+    UIImage *image = [UIImage imageWithData:imageData];
+    self.iconImageView.image = image;
+    
     // Last time updated
     NSString *updated = [NSDateFormatter localizedStringFromDate:[NSDate date]
                                                        dateStyle:NSDateFormatterMediumStyle
                                                        timeStyle:NSDateFormatterShortStyle];
-    self.weatherView.updatedLabel.text = [NSString stringWithFormat:@"Updated %@", updated];
-    [self.weatherView.activityIndicator stopAnimating];
+    self.lastUpdatedLabel.text = [NSString stringWithFormat:@"Updated %@", updated];
 }
 
 
