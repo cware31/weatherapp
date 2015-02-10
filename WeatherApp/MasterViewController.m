@@ -78,8 +78,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    NSDate *object = self.zipCodeArray[indexPath.row];
-    cell.textLabel.text = [object description];
+    NSString *locString = self.zipCodeArray[indexPath.row];
+    cell.textLabel.text = locString;
     return cell;
 }
 
