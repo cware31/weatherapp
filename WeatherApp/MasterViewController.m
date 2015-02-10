@@ -60,8 +60,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = self.zipCodeArray[indexPath.row];
-        [[segue destinationViewController] setDetailItem:object];
+        NSString *locString = self.zipCodeArray[indexPath.row];
+        [[segue destinationViewController] setDetailItem:locString];
     }
 }
 
