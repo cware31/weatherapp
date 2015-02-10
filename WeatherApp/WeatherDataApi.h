@@ -17,7 +17,7 @@
 
 @interface WeatherDataApi : NSObject <NSURLConnectionDelegate>
 {
-    NSMutableData *_responseData;
+    NSData *_responseData;
 }
 
 - (void)fetchWeatherData:(NSString *) location;
