@@ -7,17 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WeatherData.h"
-#import <RestKit/RestKit.h>
+#import "WeatherDetails.h"
 
 @protocol WeatherDataApiDelegate <NSObject>
 
-- (void) setCityWeatherInfo:(WeatherData *) weatherData;
+- (void) setCityWeatherInfo:(NSDictionary *) weatherData;
 
 @end
 
-@interface WeatherDataApi : NSObject
+@interface WeatherDataApi : NSObject <NSURLConnectionDelegate>
+{
+    NSMutableData *_responseData;
+}
 
 - (void)fetchWeatherData:(NSString *) location;
 @property (nonatomic, unsafe_unretained) id <WeatherDataApiDelegate> delegate;
+
 @end

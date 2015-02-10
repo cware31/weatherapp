@@ -7,15 +7,19 @@
 //
 
 #import "DetailViewController.h"
-#import "WeatherData.h"
 #import "WeatherDataApi.h"
+#import "WeatherDetails.h"
+#import "WeatherView.h"
 
 @interface DetailViewController ()
 
+// YES if the view has appeared
+@property (nonatomic) BOOL hasAppeared;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSString *location;
-@property (nonatomic, weak) NSObject *weatherData;
-- (void)displayWeatherData;
+@property (nonatomic, weak) WeatherDetails *weatherData;
+@property (weak, nonatomic) IBOutlet UILabel *cityLabel;
+@property (nonatomic) WeatherView *weatherView;
 
 @end
 
@@ -26,12 +30,13 @@
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
-        
+            
         [self configureView];
     }
 }
 
 - (void)configureView {
+    // Update the user interface for the detail item.
     if (self.detailItem) {
         self.location = [self.detailItem description];
     }
@@ -43,28 +48,66 @@
     weatherDataApi = [[WeatherDataApi alloc] init];
     [weatherDataApi setDelegate:self];
     [weatherDataApi fetchWeatherData:self.location];
-    [self configureUI];
-    [self displayWeatherData];
-}
-
-- (void) configureUI {
-
-}
-
-- (void)displayWeatherData {
     
+    self.view.backgroundColor = [UIColor colorWithRed:0.439 green:0.868 blue:0.999 alpha:1.000];
+    self.weatherView = [[WeatherView alloc]initWithFrame:self.view.bounds];
+    [self.view addSubview:self.weatherView];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (!self.hasAppeared) {
+        //[self updateWeather];
+        self.hasAppeared = YES;
+    }
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
 
 
 -(void)setCityWeatherInfo:weatherData {
+    NSLog(@"setCityWeatherInfo: %@", weatherData);
     self.weatherData = weatherData;
+    [self updateWeather];
 }
 
-
+- (void)updateWeather
+{
+    [self.weatherView.activityIndicator startAnimating];
+    NSDictionary *currentObservation = self.weatherData[@"current_observation"];
+    NSDictionary *displayLocation = currentObservation[@"display_location"];
+    // City,State
+    self.weatherView.locationLabel.text = displayLocation[@"full"];
+    
+    // Temperature
+    self.weatherView.currentTemperatureLabel.text = [NSString stringWithFormat:@"%.0f°",
+                                                     [currentObservation[@"temp_f"] doubleValue]];
+    // Conditions
+    self.weatherView.conditionDescriptionLabel.text = [currentObservation[@"weather"] capitalizedString];
+    NSString *feelsLike = [NSString stringWithFormat:@"%@%.0f°",@"Feels like ",
+                           [currentObservation[@"feelslike_f"] doubleValue]];
+    self.weatherView.feelsLikeLabel.text = feelsLike;
+    // TODO: fix icon
+    NSURL *imageURL = [NSURL URLWithString:currentObservation[@"icon_url"]];
+    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+    UIImage *image = [UIImage imageWithData:imageData];
+    self.weatherView.conditionIcon = image;
+    
+    // Last time updated
+    NSString *updated = [NSDateFormatter localizedStringFromDate:[NSDate date]
+                                                       dateStyle:NSDateFormatterMediumStyle
+                                                       timeStyle:NSDateFormatterShortStyle];
+    self.weatherView.updatedLabel.text = [NSString stringWithFormat:@"Updated %@", updated];
+    [self.weatherView.activityIndicator stopAnimating];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 @end
