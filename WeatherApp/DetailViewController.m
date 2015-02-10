@@ -54,15 +54,6 @@
     [self.view addSubview:self.weatherView];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    if (!self.hasAppeared) {
-        //[self updateWeather];
-        self.hasAppeared = YES;
-    }
-}
-
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
@@ -72,10 +63,10 @@
 -(void)setCityWeatherInfo:weatherData {
     NSLog(@"setCityWeatherInfo: %@", weatherData);
     self.weatherData = weatherData;
-    [self updateWeather];
+    [self loadWeatherDataIntoUI];
 }
 
-- (void)updateWeather
+- (void)loadWeatherDataIntoUI
 {
     [self.weatherView.activityIndicator startAnimating];
     NSDictionary *currentObservation = self.weatherData[@"current_observation"];
@@ -95,8 +86,17 @@
     NSURL *imageURL = [NSURL URLWithString:currentObservation[@"icon_url"]];
     NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
     UIImage *image = [UIImage imageWithData:imageData];
-    self.weatherView.conditionIcon = image;
     
+    //precipitation
+    self.weatherView.precipTodayLabel.text = [NSString stringWithFormat:@"%@ in.°",
+                                              currentObservation[@"precip_today_in"]];
+    
+    //wind
+    self.weatherView.windLabel.text = [NSString stringWithFormat:@"%.0f° %@",
+                                        [currentObservation[@"wind_mph"] doubleValue], @"mph"];
+    
+    self.weatherView.conditionIcon = image;
+    self.weatherView.conditionImageView = [[UIImageView alloc] initWithImage:image];    
     // Last time updated
     NSString *updated = [NSDateFormatter localizedStringFromDate:[NSDate date]
                                                        dateStyle:NSDateFormatterMediumStyle
@@ -104,6 +104,10 @@
     self.weatherView.updatedLabel.text = [NSString stringWithFormat:@"Updated %@", updated];
     [self.weatherView.activityIndicator stopAnimating];
 }
+
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -21,8 +21,6 @@
 
 @interface WeatherView ()
 
-// Contains all label views
-@property (strong, nonatomic) UIView                    *container;
 
 // Light-Colored ribbon to display temperatures and forecasts on
 @property (strong, nonatomic) UIView                    *ribbon;
@@ -38,6 +36,12 @@
 
 // Displays both the high and low temperatures for today
 @property (strong, nonatomic) UILabel                   *feelsLikeLabel;
+
+//  Displays the precipitation for today
+@property (strong, nonatomic) UILabel                 *precipTodayLabel;
+
+//  Displays the wind for today
+@property (strong, nonatomic) UILabel                 *windLabel;
 
 // Displays the day of the week for the first forecast snapshot
 @property (strong, nonatomic) UILabel                   *forecastDayOneLabel;
@@ -92,6 +96,8 @@
         [self initializeLocationLabel];
         [self initializeCurrentTemperatureLabel];
         [self initializeFeelsLike];
+        [self initPrecipToday];
+        [self initWind];
     }
     return self;
 }
@@ -152,7 +158,7 @@
 - (void)initializeFeelsLike
 {
     const NSInteger fontSize = 18;
-    self.feelsLikeLabel = [[UILabel alloc]initWithFrame:CGRectZero];
+    self.feelsLikeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), 1.5 * fontSize)];
     [self.feelsLikeLabel setFrame:CGRectMake(0, 0, 0.375 * CGRectGetWidth(self.bounds), fontSize)];
     [self.feelsLikeLabel setCenter:CGPointMake(self.currentTemperatureLabel.center.x - 4,
                                                      self.currentTemperatureLabel.center.y + 0.5 * self.currentTemperatureLabel.bounds.size.height + 12)];
@@ -161,6 +167,40 @@
     [self.feelsLikeLabel setTextColor:[UIColor whiteColor]];
     [self.feelsLikeLabel setTextAlignment:NSTextAlignmentCenter];
     [self.container addSubview:self.feelsLikeLabel];
+}
+
+-(void)initPrecipToday
+{
+    const NSInteger fontSize = 18;
+    self.precipTodayLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), 1.5 * fontSize)];
+    [self.precipTodayLabel setFrame:CGRectMake(0, 0, 0.375 * CGRectGetWidth(self.bounds), fontSize)];
+    [self.precipTodayLabel setCenter:CGPointMake(self.currentTemperatureLabel.center.x +25,
+                                               self.currentTemperatureLabel.center.y * self.currentTemperatureLabel.bounds.size.height + 12)];
+    [self.precipTodayLabel setFont:[UIFont fontWithName:LIGHT_FONT size:fontSize]];
+    [self.precipTodayLabel setBackgroundColor:[UIColor clearColor]];
+    [self.precipTodayLabel setTextColor:[UIColor whiteColor]];
+    [self.precipTodayLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.container addSubview:self.precipTodayLabel];
+}
+
+-(void)initWind
+{
+    const NSInteger fontSize = 18;
+    self.windLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), 1.5 * fontSize)];
+    [self.windLabel setFrame:CGRectMake(0, 0, 0.375 * CGRectGetWidth(self.bounds), fontSize)];
+    [self.windLabel setCenter:CGPointMake(self.precipTodayLabel.center.x + 25,
+                                               self.precipTodayLabel.center.y * self.precipTodayLabel.bounds.size.height + 12)];
+    [self.windLabel setFont:[UIFont fontWithName:LIGHT_FONT size:fontSize]];
+    [self.windLabel setBackgroundColor:[UIColor clearColor]];
+    [self.windLabel setTextColor:[UIColor whiteColor]];
+    [self.windLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.container addSubview:self.windLabel];
+}
+
+- (void)initializeConditionIcon:(UIImage*)image
+{
+    self.conditionImageView.center = self.center;
+    [self addSubview:self.conditionImageView];
 }
 
 @end

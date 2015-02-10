@@ -32,7 +32,7 @@
 }
 
 -(void)preloadCities {
-    self.zipCodeArray = [NSMutableArray arrayWithObjects:@"Austin, TX", @"Newport Beach, CA", @"Miami, FL" , nil];
+    self.zipCodeArray = [NSMutableArray arrayWithObjects:@"Austin, TX 78759", @"Newport Beach, CA 92660", @"Boston, MA 02201" , nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,6 +48,11 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self performSegueWithIdentifier: @"showDetail" sender: self];
+}
+
+-(void) updateObjectWithCityState:(NSString*) cityState {
+    //self.zipCodeArray
+    
 }
 
 #pragma mark - Segues

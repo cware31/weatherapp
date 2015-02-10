@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WeatherDetails.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

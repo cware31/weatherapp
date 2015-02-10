@@ -12,8 +12,14 @@
 
 #pragma mark Properties
 
+// Contains all label views
+@property (strong, nonatomic) UIView                    *container;
+
 //  Displays the time the weather data for this view was last updated
 @property (strong, nonatomic, readonly) UILabel                 *updatedLabel;
+
+//  Holds the conditionImage
+@property (strong, nonatomic) UIImageView                 *conditionImageView;
 
 //  Displays the icon for current conditions
 @property (strong, nonatomic) UIImage                 *conditionIcon;
@@ -27,8 +33,14 @@
 //  Displayes the current temperature
 @property (strong, nonatomic, readonly) UILabel                 *currentTemperatureLabel;
 
-//  Displays both the high and low temperatures for today
+//  Displays both feel like
 @property (strong, nonatomic, readonly) UILabel                 *feelsLikeLabel;
+
+//  Displays the precipitation for today
+@property (strong, nonatomic, readonly) UILabel                 *precipTodayLabel;
+
+//  Displays the wind for today
+@property (strong, nonatomic, readonly) UILabel                 *windLabel;
 
 //  Displays the day of the week for the first forecast snapshot
 @property (strong, nonatomic, readonly) UILabel                 *forecastDayOneLabel;
