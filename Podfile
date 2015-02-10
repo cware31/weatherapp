@@ -1,2 +1,2 @@
-platform :ios, '8.0'
-pod "CZWeatherKit"
+platform :ios, '7.0'
+pod 'CZWeatherKit'
