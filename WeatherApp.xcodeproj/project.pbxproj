@@ -50,7 +50,6 @@
 		238E9A6C1A88FECF0045413B /* WeatherDataApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherDataApi.m; sourceTree = "<group>"; };
 		23B89DDE1A896F080089784D /* WeatherView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherView.h; sourceTree = "<group>"; };
 		23B89DDF1A896F080089784D /* WeatherView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherView.m; sourceTree = "<group>"; };
-		23B89DE21A8971D30089784D /* CZWeatherKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZWeatherKit.h; sourceTree = "<group>"; };
 		23B89DEC1A899EB70089784D /* WeatherDetails.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherDetails.h; sourceTree = "<group>"; };
 		23B89DED1A89A19E0089784D /* WeatherDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherDetails.m; sourceTree = "<group>"; };
 		2B876693E2AB51FC563AD4AB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -101,7 +100,6 @@
 			isa = PBXGroup;
 			children = (
 				23B89DEA1A899DAC0089784D /* Models */,
-				23B89DE21A8971D30089784D /* CZWeatherKit.h */,
 				23B89DDD1A896EE60089784D /* Views */,
 				238E9A6A1A88FDFC0045413B /* Api */,
 				238E9A691A88555B0045413B /* Controllers */,
