@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeatherApp/DetailViewController.h"
-            timestampString = "445186366.320208"
+            timestampString = "445299468.463871"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "13"
-            endingLineNumber = "13"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
             landmarkName = "@interface DetailViewController"
             landmarkType = "2">
          </BreakpointContent>
@@ -48,6 +48,22 @@
             startingLineNumber = "19"
             endingLineNumber = "19"
             landmarkName = "-fetchWeatherData:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherApp/MasterViewController.m"
+            timestampString = "445634656.925466"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "-startStandardUpdates"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

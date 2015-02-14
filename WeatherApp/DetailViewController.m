@@ -10,6 +10,7 @@
 #import "WeatherDataApi.h"
 #import "WeatherDetails.h"
 #import <UIKit/UIKit.h>
+#import "WeatherManager.h"
 
 @interface DetailViewController ()
 
